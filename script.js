@@ -1,4 +1,3 @@
-
 // Função para calcular CRC16-CCITT (padrão PIX)
 function calculateCRC16(payload) {
     let crc = 0xFFFF; // Valor inicial (padrão CCITT-FALSE)
@@ -19,9 +18,6 @@ function calculateCRC16(payload) {
     // Retornar como string hex de 4 dígitos (maiúscula)
     return crc.toString(16).toUpperCase().padStart(4, '0');
 }
-
-
-
 
 document.addEventListener('DOMContentLoaded', () => {
     
@@ -97,41 +93,41 @@ if (pixModal && giftButtons.length > 0) {
     const pixGiftValue = document.getElementById('pix-gift-value');
     const qrcodeContainer = document.getElementById('qrcode');
 
-    // Função para calcular CRC16-CCITT (padrão PIX)
-    function calculateCRC16(payload) {
-        let crc = 0xFFFF;
-        const polynomial = 0x1021;
-
-        for (let i = 0; i < payload.length; i++) {
-            crc ^= (payload.charCodeAt(i) << 8);
-            for (let j = 0; j < 8; j++) {
-                if (crc & 0x8000) {
-                    crc = (crc << 1) ^ polynomial;
-                } else {
-                    crc = crc << 1;
-                }
-                crc &= 0xFFFF;
-            }
-        }
-
-        return crc.toString(16).toUpperCase().padStart(4, '0');
-    }
-
     // Função para gerar o código PIX dinâmico
-    const generatePixCode = (key, amount, name, description) => {
+    const generatePixCode = (key, amount, name, city, description) => {
+        const payloadFormatIndicator = "000201";
+        const merchantAccountInfo = "26" + (
+            "0014BR.GOV.BCB.PIX" +
+            "01" + key.length.toString().padStart(2, "0") + key
+        ).length.toString().padStart(2, "0") + 
+            "0014BR.GOV.BCB.PIX" +
+            "01" + key.length.toString().padStart(2, "0") + key;
+
+        const merchantCategoryCode = "52040000";
+        const transactionCurrency = "5303986";
+        const transactionAmount = "54" + amount.toFixed(2).length.toString().padStart(2, "0") + amount.toFixed(2);
+        const countryCode = "5802BR";
+        const merchantName = "59" + name.length.toString().padStart(2, "0") + name;
+        const merchantCity = "60" + city.length.toString().padStart(2, "0") + city;
+        
+        const additionalDataField = "62" + (
+            "05" + description.length.toString().padStart(2, "0") + description
+        ).length.toString().padStart(2, "0") + 
+            "05" + description.length.toString().padStart(2, "0") + description;
+
+        const crc16 = "6304";
+
         const payload = [
-            "000201",
-            "26" + ("58" + "BR.GOV.BCB.PIX01" + ("" + key.length).padStart(2, "0") + key).length,
-            "0014BR.GOV.BCB.PIX",
-            "01" + key.length + key,
-            "52040000",
-            "5303986",
-            "54" + amount.toFixed(2).replace(".", "").length + amount.toFixed(2).replace(".", ""),
-            "5802BR",
-            "59" + name.length + name,
-            "6009SAO PAULO",
-            "61" + "05" + description.length + description,
-            "6304"
+            payloadFormatIndicator,
+            merchantAccountInfo,
+            merchantCategoryCode,
+            transactionCurrency,
+            transactionAmount,
+            countryCode,
+            merchantName,
+            merchantCity,
+            additionalDataField,
+            crc16
         ].join("");
 
         const crc = calculateCRC16(payload);
@@ -149,8 +145,9 @@ if (pixModal && giftButtons.length > 0) {
 
             const pixKey = "43055388810";
             const beneficiaryName = "Joyce e Felipe";
+            const city = "SAO PAULO";
             const description = `Presente: ${giftName}`;
-            const pixCode = generatePixCode(pixKey, value, beneficiaryName, description);
+            const pixCode = generatePixCode(pixKey, value, beneficiaryName, city, description);
 
             pixCodeInput.value = pixCode;
 
