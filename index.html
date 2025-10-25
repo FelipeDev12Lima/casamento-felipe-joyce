@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joyce & Felipe | 29.05.2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Seção 1: Abertura -->
+    <section class="panel dark hero">
+        <div class="content">
+            <h1>Joyce & Felipe</h1>
+            <p class="subtitle">29.05.2026</p>
+        </div>
+    </section>
+
+    <!-- Seção 2: Contagem Regressiva -->
+    <section class="panel light">
+        <div class="content">
+            <h2>A contagem regressiva começou</h2>
+            <div id="countdown">
+                <div><span id="days">0</span> Dias</div>
+                <div><span id="hours">0</span> Horas</div>
+                <div><span id="minutes">0</span> Minutos</div>
+                <div><span id="seconds">0</span> Segundos</div>
+            </div>
+            <p>Celebre conosco no dia 29 de maio de 2026, das 19h às 23h.</p>
+        </div>
+    </section>
+
+    <!-- Seção 3: O Local -->
+    <section class="panel dark">
+        <div class="content">
+            <h2>O Local</h2>
+            <h3>Espaço Boa Vista Eventos</h3>
+            <p>R. Oratório, 3921 - Pq. Novo Oratório, Santo André - SP</p>
+            <a href="https://www.google.com/maps/search/?api=1&query=Espaço+Boa+Vista+Eventos,R+Oratório,3921,Santo+André,SP" target="_blank" class="btn">Ver no Mapa</a>
+            <p class="extra-info">Teremos espaço kids e um bar completo para animar a noite.</p>
+        </div>
+    </section>
+
+    <!-- Seção 4: Dress Code -->
+    <section class="panel light" id="dresscode">
+        <div class="content">
+            <h2>Código de Vestimenta</h2>
+            <p>Queremos que se sintam lindos e confortáveis! Temos apenas um pedido especial para a harmonia das nossas fotos.</p>
+
+            <!-- BLOCO DE CORES A EVITAR -->
+            <div class="dress-code-block avoid-block">
+                <h3>Por favor, EVITE estas cores:</h3>
+                <div class="palette-container">
+                    <div class="color-box" style="background-color: #9DC183;"></div>
+                    <div class="color-box" style="background-color: #355E3B;"></div>
+                    <div class="color-box" style="background-color: #00A86B;"></div>
+                    <div class="color-box" style="background-color: #50C878;"></div>
+                </div>
+                <p class="avoid-text">Tons de verde em geral.</p>
+            </div>
+
+            <!-- BLOCO DE CORES PARA INSPIRAÇÃO -->
+            <div class="dress-code-block inspire-block">
+                <h3>Inspire-se nestas paletas:</h3>
+                <p>(Lembrando que o branco é exclusivo da noiva! )</p>
+                <div class="palette-container">
+                    <div class="color-box" style="background-color: #f4e1d2;"></div>
+                    <div class="color-box" style="background-color: #d4e3f3;"></div>
+                    <div class="color-box" style="background-color: #e3d7f0;"></div>
+                    <div class="color-box" style="background-color: #333333;"></div>
+                    <div class="color-box" style="background-color: #8D7B68;"></div>
+                    <div class="color-box" style="background-color: #A4907C;"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção 5: RSVP -->
+    <section class="panel dark">
+        <div class="content">
+            <h2>Sua presença fará nosso dia</h2>
+            <form id="rsvp-form">
+                <div class="form-group">
+                    <input type="text" id="nome" name="nome" required>
+                    <label for="nome">Nome completo</label>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" name="email" required>
+                    <label for="email">Seu e-mail</label>
+                </div>
+                <div class="form-group">
+                    <textarea id="mensagem" name="mensagem" rows="3"></textarea>
+                    <label for="mensagem">Deixe uma mensagem (opcional)</label>
+                </div>
+                <button type="submit" class="btn">Confirmar Presença</button>
+            </form>
+            <p id="form-status"></p>
+        </div>
+    </section>
+
+    <!-- Seção 6: Lista de Presentes Simbólica -->
+    <section class="panel light" id="presentes">
+        <div class="content">
+            <h2>Nossa Lista de Presentes</h2>
+            <p>Sua presença já é nosso maior presente! Mas, para quem deseja nos mimar, criamos uma lista de presentes simbólicos que se transformarão em ajuda para nossos sonhos. Escolha um item e contribua com o valor correspondente via Pix.</p>
+            
+            <div class="gift-gallery">
+                <div class="gift-item" data-value="150"><img src="imagens/jogoo de toalhas.webp" alt="Jogo de Toalhas"><h4>Jogo de Toalhas</h4><p class="gift-price">R$ 150,00</p><button class="btn-presentear">Presentear</button></div>
+                <div class="gift-item" data-value="100"><img src="imagens/robo aspirador.jpg" alt="Robô Aspirador"><h4>Robô Aspirador</h4><p class="gift-price">R$ 100,00</p><button class="btn-presentear">Presentear</button></div>
+                <div class="gift-item" data-value="200"><img src="imagens/jogo de lençóis.webp" alt="Jogo de Lençóis"><h4>Jogo de Lençóis</h4><p class="gift-price">R$ 200,00</p><button class="btn-presentear">Presentear</button></div>
+                <div class="gift-item" data-value="250"><img src="imagens/maquina agua com gas.png" alt="Maquina de Agua com Gás"><h4>Máquina de Agua com Gás</h4><p class="gift-price">R$ 250,00</p><button class="btn-presentear">Presentear</button></div>
+                <div class="gift-item" data-value="300"><img src="imagens/lua de mel.jpg" alt="Diária na Lua de Mel"><h4>Diária na Lua de Mel</h4><p class="gift-price">R$ 300,00</p><button class="btn-presentear">Presentear</button></div>
+                <div class="gift-item" data-value="350"><img src="imagens/maquina de cafe.jpg" alt="Maquina de Café"><h4>Máquina de Café</h4><p class="gift-price">R$ 350,00</p><button class="btn-presentear">Presentear</button></div>
+                <div class="gift-item" data-value="400"><img src="imagens/spa day.jpg" alt="Spa Day para a Noiva"><h4>Spa Day para a Noiva</h4><p class="gift-price">R$ 400,00</p><button class="btn-presentear">Presentear</button></div>
+                <div class="gift-item" data-value="500"><img src="imagens/WhatsApp Image 2025-10-13 at 22.54.54.jpeg" alt="Creche para o Timão no dia do Casamento"><h4>Creche para o Timão no dia do Casamento</h4><p class="gift-price">R$ 500,00</p><button class="btn-presentear">Presentear</button></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- O link para o script.js deve estar aqui, antes do final do body -->
+    <script src="script.js"></script>
+
+    <!-- Modal do PIX -->
+    <div id="pix-modal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Contribuição via PIX</h2>
+        <p>Presente escolhido: <strong id="pix-gift-value"></strong></p>
+        <p>Escaneie o QR Code abaixo com o app do seu banco ou use o "Copia e Cola".</p>
+        <!-- Substituir a imagem estática por um div para o QR Code dinâmico -->
+        <div id="qrcode" class="qrcode"></div>
+        <div class="pix-copy-paste">
+            <input type="text" id="pix-code" readonly>
+            <button id="copy-pix-button">Copiar Código</button>
+        </div>
+        <p class="agradecimento">Agradecemos de coração pelo seu carinho!</p>
+    </div>
+</div>
+
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="script.js"></script>
+
+</html>

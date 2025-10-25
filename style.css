@@ -1,0 +1,307 @@
+:root {
+    --font-title: 'Playfair Display', serif;
+    --font-body: 'Roboto', sans-serif;
+    --color-dark: #121212;
+    --color-light: #f4f4f4;
+    --color-text-dark: #e0e0e0;
+    --color-text-light: #333;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-dark);
+    color: var(--color-text-light);
+    margin: 0;
+    text-align: center;
+}
+
+.panel {
+    width: 100%;
+    min-height: 80vh; /* Garante uma altura mínima, mas pode crescer */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    box-sizing: border-box;
+}
+
+.hero {
+    height: 100vh; /* A primeira seção continua ocupando a tela toda */
+}
+
+.dark { background-color: var(--color-dark); color: var(--color-text-dark); }
+.light { background-color: var(--color-light); color: var(--color-text-light); }
+
+.content {
+    max-width: 800px;
+}
+
+h1, h2 { font-family: var(--font-title); }
+h1 { font-size: clamp(3rem, 10vw, 6rem); margin: 0; }
+h2 { font-size: clamp(2rem, 8vw, 3.5rem); margin-bottom: 30px; }
+p { font-size: clamp(1rem, 2.5vw, 1.2rem); line-height: 1.6; font-weight: 300; }
+
+.subtitle { font-size: 1.5rem; }
+
+#countdown { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin: 20px 0; }
+#countdown div { font-size: 1.2rem; text-align: center; }
+#countdown span { display: block; font-size: 3rem; font-weight: bold; font-family: var(--font-title); }
+
+.btn {
+    display: inline-block;
+    background-color: var(--color-light);
+    color: var(--color-dark);
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    border: 2px solid var(--color-light);
+}
+.btn:hover { background-color: transparent; color: var(--color-light); }
+.light .btn { background-color: var(--color-dark); color: var(--color-light); border-color: var(--color-dark); }
+.light .btn:hover { background-color: transparent; color: var(--color-dark); }
+
+.extra-info { margin-top: 30px; font-style: italic; opacity: 0.8; }
+
+.palette-container { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
+.color-box { width: 60px; height: 60px; border-radius: 50%; opacity: 0.7; }
+
+#rsvp-form { width: 100%; max-width: 500px; margin: 0 auto; }
+.form-group { position: relative; margin-bottom: 35px; text-align: left; }
+#rsvp-form input, #rsvp-form textarea {
+    width: 100%;
+    padding: 10px 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--color-text-dark);
+    color: var(--color-text-dark);
+    font-size: 1rem;
+    font-family: var(--font-body);
+}
+#rsvp-form input:focus, #rsvp-form textarea:focus { outline: none; border-bottom-color: white; }
+#rsvp-form label {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    color: rgba(255,255,255,0.5);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+#rsvp-form input:focus + label, #rsvp-form input:valid + label,
+#rsvp-form textarea:focus + label, #rsvp-form textarea:valid + label {
+    top: -15px;
+    font-size: 0.8rem;
+    color: white;
+}
+#form-status { margin-top: 20px; height: 20px; }
+
+.final-section {
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6));
+}
+.final-message { margin-top: 40px; font-family: var(--font-title); font-size: 1.5rem; }
+
+/* CSS Adicional para o Dress Code Melhorado */
+
+.dress-code-block {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.light .dress-code-block {
+    border-color: #ccc;
+}
+
+.avoid-block {
+    background-color: #fff0f0; /* Fundo avermelhado bem claro */
+    border-color: #ffbaba;
+}
+
+.avoid-block .palette-container {
+    filter: grayscale(50%);
+    opacity: 0.6;
+}
+
+
+
+.avoid-text {
+    font-style: italic;
+    color: #a10000;
+}
+
+.inspire-block {
+    margin-top: 40px;
+}
+
+.inspire-block .color-box {
+    opacity: 1; /* Garante que as cores de inspiração sejam vibrantes */
+    border: 1px solid #ccc;
+}
+
+/* CSS Adicional para o Modal do PIX */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background-color: var(--color-light);
+    color: var(--color-text-light);
+    padding: 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    transform: translateY(-50px);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0);
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.qrcode-image {
+    max-width: 250px;
+    width: 100%;
+    margin: 20px auto;
+    display: block;
+}
+
+.pix-copy-paste {
+    display: flex;
+    margin-top: 15px;
+}
+
+.pix-copy-paste input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+    font-size: 0.9rem;
+    background-color: #eee;
+}
+
+.pix-copy-paste button {
+    padding: 10px 15px;
+    border: none;
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    cursor: pointer;
+    border-radius: 0 5px 5px 0;
+}
+
+.agradecimento {
+    margin-top: 20px;
+    font-style: italic;
+}
+
+/* CSS Adicional para a Galeria de Presentes */
+.gift-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+    text-align: left;
+}
+
+.gift-item {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gift-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.gift-item img {
+    width: 100%;
+    height: auto;
+    max-height: 250px; 
+    object-fit: contain; 
+    background-color: #f8f8f8; 
+    display: block;
+    margin: 0 auto;
+}
+
+
+.gift-item h4 {
+    font-family: var(--font-title);
+    color: var(--color-text-light);
+    margin: 15px 20px 5px;
+}
+
+.gift-item .gift-price {
+    color: #555;
+    font-weight: bold;
+    margin: 0 20px 15px;
+}
+
+.gift-item .btn-presentear {
+    margin: auto 20px 20px;
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.gift-item .btn-presentear:hover {
+    background-color: #333;
+}
+
+#pix-gift-value {
+    color: #007BFF; /* Um azul para destacar */
+}
+
+.qrcode {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+
+
+
+
