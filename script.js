@@ -95,25 +95,35 @@ if (pixModal && giftButtons.length > 0) {
 
     // Função para gerar o código PIX dinâmico
     const generatePixCode = (key, amount, name, city, description) => {
+        // Garante que o valor tenha 2 casas decimais, conforme o padrão PIX
+        const amountValue = parseFloat(amount).toFixed(2); 
+
         const payloadFormatIndicator = "000201";
-        const merchantAccountInfo = "26" + (
-            "0014BR.GOV.BCB.PIX" +
-            "01" + key.length.toString().padStart(2, "0") + key
-        ).length.toString().padStart(2, "0") + 
+        
+        // Merchant Account Information (ID 26)
+        const merchantAccountInfoContent = 
             "0014BR.GOV.BCB.PIX" +
             "01" + key.length.toString().padStart(2, "0") + key;
+        const merchantAccountInfo = "26" + merchantAccountInfoContent.length.toString().padStart(2, "0") + merchantAccountInfoContent;
 
         const merchantCategoryCode = "52040000";
         const transactionCurrency = "5303986";
-        const transactionAmount = "54" + amount.toFixed(2).length.toString().padStart(2, "0") + amount.toFixed(2);
+        
+        // Transaction Amount (ID 54)
+        const amountString = amountValue.toString();
+        const transactionAmount = "54" + amountString.length.toString().padStart(2, "0") + amountString;
+        
         const countryCode = "5802BR";
+        
+        // Merchant Name (ID 59)
         const merchantName = "59" + name.length.toString().padStart(2, "0") + name;
+        
+        // Merchant City (ID 60)
         const merchantCity = "60" + city.length.toString().padStart(2, "0") + city;
         
-        const additionalDataField = "62" + (
-            "05" + description.length.toString().padStart(2, "0") + description
-        ).length.toString().padStart(2, "0") + 
-            "05" + description.length.toString().padStart(2, "0") + description;
+        // Additional Data Field (ID 62) - Contém o campo de Referência/Descrição (ID 05)
+        const descriptionContent = "05" + description.length.toString().padStart(2, "0") + description;
+        const additionalDataField = "62" + descriptionContent.length.toString().padStart(2, "0") + descriptionContent;
 
         const crc16 = "6304";
 
@@ -137,7 +147,15 @@ if (pixModal && giftButtons.length > 0) {
     // Abrir o modal com o valor e QR Code corretos
     giftButtons.forEach(button => {
         button.addEventListener('click', (e) => {
-            const giftItem = e.target.closest('.gift-item');
+            // Correção: Garante que o elemento pai gift-item seja encontrado a partir do botão
+            // Isso resolve o problema de o clique cair em um elemento filho do botão
+            const giftItem = button.closest('.gift-item');
+            
+            if (!giftItem) {
+                console.error("Erro: Não foi possível encontrar o elemento pai '.gift-item' para o botão clicado.");
+                return;
+            }
+
             const value = parseFloat(giftItem.dataset.value);
             const giftName = giftItem.querySelector('h4').textContent;
 
