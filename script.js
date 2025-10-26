@@ -28,36 +28,39 @@ document.addEventListener('DOMContentLoaded', () => {
     // PARTE 2: FORMULÁRIO DE RSVP
     // ===================================
     const rsvpForm = document.getElementById('rsvp-form');
-    if (rsvpForm) {
-        const formStatus = document.getElementById('form-status');
-        rsvpForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            formStatus.textContent = 'Enviando...';
-            formStatus.style.color = 'white';
 
-            const formData = new FormData(rsvpForm);
-            const data = Object.fromEntries(formData.entries());
+if (rsvpForm) {
+    const formStatus = document.getElementById('form-status');
 
-            try {
-                const response = await fetch('/rsvp', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data),
-                });
+    rsvpForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        formStatus.textContent = 'Enviando...';
+        formStatus.style.color = 'white';
 
-                if (response.ok) {
-                    formStatus.textContent = 'Obrigado por confirmar!';
-                    formStatus.style.color = '#4CAF50';
-                    rsvpForm.reset();
-                } else {
-                    throw new Error('Falha no envio.');
-                }
-            } catch (error) {
-                formStatus.textContent = 'Erro ao enviar. Tente novamente.';
-                formStatus.style.color = '#F44336';
+        const formData = new FormData(rsvpForm);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch("https://formspree.io/f/meopqydb", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                formStatus.textContent = 'Obrigado por confirmar!';
+                formStatus.style.color = '#4CAF50';
+                rsvpForm.reset();
+            } else {
+                throw new Error('Falha no envio.');
             }
-        });
-    }
+        } catch (error) {
+            formStatus.textContent = 'Erro ao enviar. Tente novamente.';
+            formStatus.style.color = '#F44336';
+        }
+    });
+}
+
 
     // =======================================================
     // PARTE 3: NOVA LÓGICA DE PRESENTES + PIX SIMPLES
