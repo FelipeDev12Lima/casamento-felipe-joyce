@@ -1,24 +1,3 @@
-// Função para calcular CRC16-CCITT (padrão PIX)
-function calculateCRC16(payload) {
-    let crc = 0xFFFF; // Valor inicial (padrão CCITT-FALSE)
-    const polynomial = 0x1021;
-
-    for (let i = 0; i < payload.length; i++) {
-        crc ^= (payload.charCodeAt(i) << 8);
-        for (let j = 0; j < 8; j++) {
-            if (crc & 0x8000) {
-                crc = (crc << 1) ^ polynomial;
-            } else {
-                crc = crc << 1;
-            }
-            crc &= 0xFFFF; // Manter em 16 bits
-        }
-    }
-
-    // Retornar como string hex de 4 dígitos (maiúscula)
-    return crc.toString(16).toUpperCase().padStart(4, '0');
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     
     // ===================================
@@ -81,138 +60,81 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // =======================================================
-// PARTE 3: LÓGICA DA GALERIA DE PRESENTES E MODAL DO PIX
-// =======================================================
-const giftButtons = document.querySelectorAll('.btn-presentear');
-const pixModal = document.getElementById('pix-modal');
+    // PARTE 3: NOVA LÓGICA DE PRESENTES + PIX SIMPLES
+    // =======================================================
+    const giftButtons = document.querySelectorAll('.btn-presentear');
+    const freeDonationBtn = document.getElementById('free-donation-btn');
+    const pixModal = document.getElementById('pix-modal');
 
-if (pixModal && giftButtons.length > 0) {
-    const closeModalBtn = pixModal.querySelector('.close-modal');
-    const copyPixBtn = document.getElementById('copy-pix-button');
-    const pixCodeInput = document.getElementById('pix-code');
-    const pixGiftValue = document.getElementById('pix-gift-value');
-    const qrcodeContainer = document.getElementById('qrcode');
+    if (pixModal && (giftButtons.length > 0 || freeDonationBtn)) {
+        const closeModalBtn = pixModal.querySelector('.close-modal');
+        const copyKeyBtn = document.getElementById('copy-key-button');
+        const suggestedValueEl = document.getElementById('suggested-value');
+        const referenceInput = document.getElementById('reference-input');
+        const useGiftRefBtn = document.getElementById('use-gift-reference');
+        const refPreview = document.getElementById('ref-preview');
 
-    // Função para gerar o código PIX dinâmico
-    const generatePixCode = (key, amount, name, city, description) => {
-        // Garante que o valor tenha 2 casas decimais, conforme o padrão PIX
-        const amountValue = parseFloat(amount).toFixed(2); 
+        let currentGiftName = '';
+        let currentValue = 0;
 
-        const payloadFormatIndicator = "000201";
-        
-        // Merchant Account Information (ID 26)
-        const merchantAccountInfoContent = 
-            "0014BR.GOV.BCB.PIX" +
-            "01" + key.length.toString().padStart(2, "0") + key;
-        const merchantAccountInfo = "26" + merchantAccountInfoContent.length.toString().padStart(2, "0") + merchantAccountInfoContent;
+        // Função para abrir modal
+        const openModal = (value = 0, giftName = '') => {
+            currentValue = value;
+            currentGiftName = giftName;
 
-        const merchantCategoryCode = "52040000";
-        const transactionCurrency = "5303986";
-        
-        // Transaction Amount (ID 54)
-        const amountString = amountValue.toString();
-        const transactionAmount = "54" + amountString.length.toString().padStart(2, "0") + amountString;
-        
-        const countryCode = "5802BR";
-        
-        // Merchant Name (ID 59)
-        const merchantName = "59" + name.length.toString().padStart(2, "0") + name;
-        
-        // Merchant City (ID 60)
-        const merchantCity = "60" + city.length.toString().padStart(2, "0") + city;
-        
-        // Additional Data Field (ID 62) - Contém o campo de Referência/Descrição (ID 05)
-        const descriptionContent = "05" + description.length.toString().padStart(2, "0") + description;
-        const additionalDataField = "62" + descriptionContent.length.toString().padStart(2, "0") + descriptionContent;
-
-        const crc16 = "6304";
-
-        const payload = [
-            payloadFormatIndicator,
-            merchantAccountInfo,
-            merchantCategoryCode,
-            transactionCurrency,
-            transactionAmount,
-            countryCode,
-            merchantName,
-            merchantCity,
-            additionalDataField,
-            crc16
-        ].join("");
-
-        const crc = calculateCRC16(payload);
-        return payload + crc;
-    };
-
-    // Abrir o modal com o valor e QR Code corretos
-    giftButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            // Correção: Garante que o elemento pai gift-item seja encontrado a partir do botão
-            // Isso resolve o problema de o clique cair em um elemento filho do botão
-            const giftItem = button.closest('.gift-item');
-            
-            if (!giftItem) {
-                console.error("Erro: Não foi possível encontrar o elemento pai '.gift-item' para o botão clicado.");
-                return;
-            }
-
-            const value = parseFloat(giftItem.dataset.value);
-            const giftName = giftItem.querySelector('h4').textContent;
-
-            pixGiftValue.textContent = `R$ ${value.toFixed(2).replace('.', ',')}`;
-
-            const pixKey = "43055388810";
-            const beneficiaryName = "Joyce e Felipe";
-            const city = "SAO PAULO";
-            const description = `Presente: ${giftName}`;
-            const pixCode = generatePixCode(pixKey, value, beneficiaryName, city, description);
-
-            pixCodeInput.value = pixCode;
-
-            qrcodeContainer.innerHTML = '';
-            new QRCode(qrcodeContainer, {
-                text: pixCode,
-                width: 200,
-                height: 200,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            });
-
+            suggestedValueEl.textContent = value > 0 ? `R$ ${value.toFixed(2).replace('.', ',')}` : 'Qualquer valor';
+            referenceInput.value = giftName ? (giftName.length > 25 ? giftName.substring(0, 22) + '...' : giftName) : '';
+            refPreview.textContent = referenceInput.value || '(vazio)';
             pixModal.classList.add('active');
+        };
+
+        // Botões de presentes
+        giftButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const giftItem = button.closest('.gift-item');
+                const value = parseFloat(giftItem.dataset.value);
+                const giftName = giftItem.querySelector('h4').textContent;
+                openModal(value, giftName);
+            });
         });
-    });
 
-    // Função para fechar o modal
-    const closeModal = () => {
-        pixModal.classList.remove('active');
-        qrcodeContainer.innerHTML = '';
-    };
-
-    closeModalBtn.addEventListener('click', closeModal);
-    pixModal.addEventListener('click', (e) => {
-        if (e.target === pixModal) {
-            closeModal();
+        // Botão de doação livre
+        if (freeDonationBtn) {
+            freeDonationBtn.addEventListener('click', () => {
+                openModal(0, '');
+            });
         }
-    });
 
-    copyPixBtn.addEventListener('click', () => {
-        pixCodeInput.select();
-        pixCodeInput.setSelectionRange(0, 99999);
+        // Atualizar preview da referência
+        referenceInput.addEventListener('input', () => {
+            refPreview.textContent = referenceInput.value || '(vazio)';
+        });
 
-        try {
-            navigator.clipboard.writeText(pixCodeInput.value);
-            copyPixBtn.textContent = 'Copiado!';
-            setTimeout(() => {
-                copyPixBtn.textContent = 'Copiar Código';
-            }, 2000);
-        } catch (err) {
-            document.execCommand('copy');
-            copyPixBtn.textContent = 'Copiado!';
-            setTimeout(() => {
-                copyPixBtn.textContent = 'Copiar Código';
-            }, 2000);
-        }
-    });
-}
+        // Usar nome do presente
+        useGiftRefBtn.addEventListener('click', () => {
+            referenceInput.value = currentGiftName.length > 25 ? currentGiftName.substring(0, 22) + '...' : currentGiftName;
+            refPreview.textContent = referenceInput.value;
+        });
+
+        // Copiar chave
+        copyKeyBtn.addEventListener('click', () => {
+            const keyInput = document.getElementById('static-pix-key');
+            keyInput.select();
+            navigator.clipboard.writeText(keyInput.value).then(() => {
+                copyKeyBtn.textContent = 'Copiado!';
+                setTimeout(() => copyKeyBtn.textContent = 'Copiar Chave', 2000);
+            }).catch(() => {
+                copyKeyBtn.textContent = 'Erro';
+            });
+        });
+
+        // Fechar modal
+        const closeModal = () => {
+            pixModal.classList.remove('active');
+        };
+        closeModalBtn.addEventListener('click', closeModal);
+        pixModal.addEventListener('click', (e) => {
+            if (e.target === pixModal) closeModal();
+        });
+    }
 });

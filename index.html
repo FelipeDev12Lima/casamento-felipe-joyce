@@ -105,44 +105,64 @@
     <section class="panel light" id="presentes">
         <div class="content">
             <h2>Nossa Lista de Presentes</h2>
-            <p>Sua presença já é nosso maior presente! Mas, para quem deseja nos mimar, criamos uma lista de presentes simbólicos que se transformarão em ajuda para nossos sonhos. Escolha um item e contribua com o valor correspondente via Pix.</p>
+            <p>Sua presença já é nosso maior presente! Mas, para quem deseja nos mimar, criamos uma lista de presentes simbólicos que se transformarão em ajuda para nossos sonhos. Escolha um item como inspiração e contribua com o valor que quiser via Pix.</p>
             
             <div class="gift-gallery">
-                <div class="gift-item" data-value="150"><img src="imagens/jogoo de toalhas.webp" alt="Jogo de Toalhas"><h4>Jogo de Toalhas</h4><p class="gift-price">R$ 150,00</p><button class="btn-presentear">Presentear</button></div>
-                <div class="gift-item" data-value="100"><img src="imagens/robo aspirador.jpg" alt="Robô Aspirador"><h4>Robô Aspirador</h4><p class="gift-price">R$ 100,00</p><button class="btn-presentear">Presentear</button></div>
-                <div class="gift-item" data-value="200"><img src="imagens/jogo de lençóis.webp" alt="Jogo de Lençóis"><h4>Jogo de Lençóis</h4><p class="gift-price">R$ 200,00</p><button class="btn-presentear">Presentear</button></div>
-                <div class="gift-item" data-value="250"><img src="imagens/maquina agua com gas.png" alt="Maquina de Agua com Gás"><h4>Máquina de Agua com Gás</h4><p class="gift-price">R$ 250,00</p><button class="btn-presentear">Presentear</button></div>
-                <div class="gift-item" data-value="300"><img src="imagens/lua de mel.jpg" alt="Diária na Lua de Mel"><h4>Diária na Lua de Mel</h4><p class="gift-price">R$ 300,00</p><button class="btn-presentear">Presentear</button></div>
-                <div class="gift-item" data-value="350"><img src="imagens/maquina de cafe.jpg" alt="Maquina de Café"><h4>Máquina de Café</h4><p class="gift-price">R$ 350,00</p><button class="btn-presentear">Presentear</button></div>
-                <div class="gift-item" data-value="400"><img src="imagens/spa day.jpg" alt="Spa Day para a Noiva"><h4>Spa Day para a Noiva</h4><p class="gift-price">R$ 400,00</p><button class="btn-presentear">Presentear</button></div>
-                <div class="gift-item" data-value="500"><img src="imagens/WhatsApp Image 2025-10-13 at 22.54.54.jpeg" alt="Creche para o Timão no dia do Casamento"><h4>Creche para o Timão no dia do Casamento</h4><p class="gift-price">R$ 500,00</p><button class="btn-presentear">Presentear</button></div>
+                <div class="gift-item" data-value="150"><img src="imagens/jogoo de toalhas.webp" alt="Jogo de Toalhas"><h4>Jogo de Toalhas</h4><p class="gift-price">R$ 150,00</p><button class="btn-presentear">Contribuir</button></div>
+                <div class="gift-item" data-value="100"><img src="imagens/robo aspirador.jpg" alt="Robô Aspirador"><h4>Robô Aspirador</h4><p class="gift-price">R$ 100,00</p><button class="btn-presentear">Contribuir</button></div>
+                <div class="gift-item" data-value="200"><img src="imagens/jogo de lençóis.webp" alt="Jogo de Lençóis"><h4>Jogo de Lençóis</h4><p class="gift-price">R$ 200,00</p><button class="btn-presentear">Contribuir</button></div>
+                <div class="gift-item" data-value="250"><img src="imagens/maquina agua com gas.png" alt="Maquina de Agua com Gás"><h4>Máquina de Água com Gás</h4><p class="gift-price">R$ 250,00</p><button class="btn-presentear">Contribuir</button></div>
+                <div class="gift-item" data-value="300"><img src="imagens/lua de mel.jpg" alt="Diária na Lua de Mel"><h4>Diária na Lua de Mel</h4><p class="gift-price">R$ 300,00</p><button class="btn-presentear">Contribuir</button></div>
+                <div class="gift-item" data-value="350"><img src="imagens/maquina de cafe.jpg" alt="Maquina de Café"><h4>Máquina de Café</h4><p class="gift-price">R$ 350,00</p><button class="btn-presentear">Contribuir</button></div>
+                <div class="gift-item" data-value="400"><img src="imagens/spa day.jpg" alt="Spa Day para a Noiva"><h4>Spa Day para a Noiva</h4><p class="gift-price">R$ 400,00</p><button class="btn-presentear">Contribuir</button></div>
+                <div class="gift-item" data-value="500"><img src="imagens/WhatsApp Image 2025-10-13 at 22.54.54.jpeg" alt="Creche para o Timão no dia do Casamento"><h4>Creche para o Timão</h4><p class="gift-price">R$ 500,00</p><button class="btn-presentear">Contribuir</button></div>
+            </div>
+
+            <!-- Botão para doar outro valor -->
+            <div style="margin-top: 40px;">
+                <button id="free-donation-btn" class="btn" style="background: #4CAF50; color: white; border: none;">Doar qualquer valor</button>
             </div>
         </div>
     </section>
 
-    <!-- O link para o script.js deve estar aqui, antes do final do body -->
-    <script src="script.js"></script>
-
-    <!-- Modal do PIX -->
+    <!-- Modal do PIX SIMPLIFICADO -->
     <div id="pix-modal" class="modal-overlay">
-    <div class="modal-content">
-        <span class="close-modal">&times;</span>
-        <h2>Contribuição via PIX</h2>
-        <p>Presente escolhido: <strong id="pix-gift-value"></strong></p>
-        <p>Escaneie o QR Code abaixo com o app do seu banco ou use o "Copia e Cola".</p>
-        <!-- Substituir a imagem estática por um div para o QR Code dinâmico -->
-        <div id="qrcode" class="qrcode"></div>
-        <div class="pix-copy-paste">
-            <input type="text" id="pix-code" readonly>
-            <button id="copy-pix-button">Copiar Código</button>
+        <div class="modal-content">
+            <span class="close-modal">×</span>
+            <h2>Contribua com o valor que desejar</h2>
+            <p>Sua presença já é o maior presente! Mas se quiser nos ajudar com nossos sonhos, use o PIX abaixo:</p>
+
+            <div class="pix-info">
+                <p><strong>Chave PIX:</strong></p>
+                <div class="pix-key-box">
+                    <input type="text" id="static-pix-key" value="43055388810" readonly>
+                    <button id="copy-key-button">Copiar Chave</button>
+                </div>
+            </div>
+
+            <div class="pix-suggestion">
+                <p><strong>Valor sugerido:</strong> <span id="suggested-value">R$ 0,00</span></p>
+                <p><em>Dica: digite este valor no app do banco</em></p>
+            </div>
+
+            <div class="pix-reference">
+                <p><strong>Referência (opcional):</strong></p>
+                <input type="text" id="reference-input" placeholder="Ex: Jogo de Toalhas" maxlength="25">
+                <button id="use-gift-reference">Usar nome do presente</button>
+            </div>
+
+            <div class="pix-instruction">
+                <p>1. Abra o app do seu banco<br>
+                   2. Vá em PIX → Pagar com chave<br>
+                   3. Cole a chave: <strong>43055388810</strong><br>
+                   4. Digite o valor que quiser<br>
+                   5. (Opcional) Na descrição, coloque: <span id="ref-preview">(vazio)</span></p>
+            </div>
+
+            <p class="agradecimento">Obrigado pelo carinho!</p>
         </div>
-        <p class="agradecimento">Agradecemos de coração pelo seu carinho!</p>
     </div>
-</div>
 
+    <script src="script.js"></script>
 </body>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="script.js"></script>
-
 </html>
