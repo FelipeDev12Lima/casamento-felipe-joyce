@@ -223,7 +223,7 @@ p { font-size: clamp(1rem, 2.5vw, 1.2rem); line-height: 1.6; font-weight: 300; }
 }
 #copy-key-button, #use-gift-reference {
     padding: 10px 16px;
-    background: #4CAF50;
+    background: #121212;
     color: white;
     border: none;
     border-radius: 6px;
@@ -243,11 +243,11 @@ p { font-size: clamp(1rem, 2.5vw, 1.2rem); line-height: 1.6; font-weight: 300; }
     border-radius: 8px;
     font-size: 0.95em;
     line-height: 1.6;
-    border-left: 4px solid #4CAF50;
+    border-left: 4px solid #121212;
 }
 #ref-preview {
     font-weight: bold;
-    color: #4CAF50;
+    color: #121212;
 }
 .agradecimento {
     margin-top: 20px;

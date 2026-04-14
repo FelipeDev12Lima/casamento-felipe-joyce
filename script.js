@@ -49,7 +49,7 @@ if (rsvpForm) {
 
             if (response.ok) {
                 formStatus.textContent = 'Obrigado por confirmar!';
-                formStatus.style.color = '#4CAF50';
+                formStatus.style.color = '#121212';
                 rsvpForm.reset();
             } else {
                 throw new Error('Falha no envio.');
