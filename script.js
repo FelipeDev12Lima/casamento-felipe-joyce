@@ -1,4 +1,74 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    // ===================================
+    // NAVBAR: scroll + menu mobile + active link
+    // ===================================
+    const navbar = document.getElementById('navbar');
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinksContainer = document.getElementById('nav-links');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    navToggle.addEventListener('click', () => {
+        navToggle.classList.toggle('open');
+        navLinksContainer.classList.toggle('open');
+    });
+
+    navLinksContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('nav-link')) {
+            navToggle.classList.remove('open');
+            navLinksContainer.classList.remove('open');
+        }
+    });
+
+    // Destaca o link ativo conforme a seção visível
+    const sections = document.querySelectorAll('section[id]');
+    const activeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`);
+                });
+            }
+        });
+    }, { threshold: 0.4 });
+    sections.forEach(s => activeObserver.observe(s));
+
+    // ===================================
+    // PARALLAX NO HERO (apenas desktop/mouse)
+    // ===================================
+    const heroContent = document.querySelector('.hero .content');
+    const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+    if (heroContent && !isTouch) {
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const heroH = window.innerHeight;
+            if (scrollY < heroH) {
+                heroContent.style.transform = `translateY(${scrollY * 0.35}px)`;
+                heroContent.style.opacity = 1 - (scrollY / heroH) * 1.6;
+            }
+        }, { passive: true });
+    }
+
+    // ===================================
+    // FADE-IN AO ROLAR (Intersection Observer)
+    // ===================================
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+
     
     // ===================================
     // PARTE 1: CONTAGEM REGRESSIVA
